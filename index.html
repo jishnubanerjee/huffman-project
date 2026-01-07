@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Huffman Compressor - ECE Project</title>
+    <style>
+        body { font-family: sans-serif; background: #121212; color: white; padding: 20px; }
+        .container { max-width: 600px; margin: auto; background: #1e1e1e; padding: 20px; border-radius: 8px; }
+        input, button { width: 100%; padding: 10px; margin: 10px 0; border-radius: 4px; border: none; }
+        button { background: #007bff; color: white; cursor: pointer; font-weight: bold; }
+        #output { background: #000; padding: 10px; border-left: 4px solid #007bff; white-space: pre-wrap; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Huffman Coding Compressor</h2>
+        <input type="text" id="inputText" placeholder="Enter text (e.g., jishnu)">
+        <button onclick="runHuffman()">Compress Now</button>
+        <div id="output">Results will appear here...</div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
+

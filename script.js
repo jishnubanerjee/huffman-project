@@ -1,50 +1,49 @@
-class Node {
-    constructor(char, freq, left = null, right = null) {
-        this.char = char;
-        this.freq = freq;
-        this.left = left;
-        this.right = right;
-    }
+// Function to play a "Mechanical Click" sound
+function playClickSound() {
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
+
+    oscillator.type = 'square'; // Makes it sound "retro"
+    oscillator.frequency.setValueAtTime(150, context.currentTime);
+    oscillator.frequency.exponentialRampToValueAtTime(10, context.currentTime + 0.1);
+
+    gain.gain.setValueAtTime(0.1, context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.1);
+
+    oscillator.connect(gain);
+    gain.connect(context.destination);
+
+    oscillator.start();
+    oscillator.stop(context.currentTime + 0.1);
 }
 
-function runHuffman() {
-    let text = document.getElementById("inputText").value;
-    if (!text) return;
+// Function to play a "Data Processing" beep
+function playProcessSound() {
+    const context = new (window.AudioContext || window.webkitAudioContext)();
+    const oscillator = context.createOscillator();
+    const gain = context.createGain();
 
-    // 1. Frequency Map
-    let freqMap = {};
-    for (let char of text) freqMap[char] = (freqMap[char] || 0) + 1;
+    oscillator.type = 'sine';
+    oscillator.frequency.setValueAtTime(880, context.currentTime); // High pitch A5
 
-    // 2. Build Min-Heap (Array-based)
-    let nodes = Object.keys(freqMap).map(char => new Node(char, freqMap[char]));
-    
-    while (nodes.length > 1) {
-        nodes.sort((a, b) => a.freq - b.freq); // Sort to pick two smallest
-        let left = nodes.shift();
-        let right = nodes.shift();
-        let newNode = new Node('$', left.freq + right.freq, left, right);
-        nodes.push(newNode);
-    }
+    gain.gain.setValueAtTime(0.05, context.currentTime);
+    gain.gain.exponentialRampToValueAtTime(0.01, context.currentTime + 0.2);
 
-    // 3. Generate Codes
-    let codes = {};
-    function generateCodes(node, currentCode) {
-        if (!node) return;
-        if (node.char !== '$') codes[node.char] = currentCode;
-        generateCodes(node.left, currentCode + "0");
-        generateCodes(node.right, currentCode + "1");
-    }
-    generateCodes(nodes[0], "");
+    oscillator.connect(gain);
+    gain.connect(context.destination);
 
-    // 4. Display Results
-    let outputText = "--- Huffman Codes ---\n";
-    for (let char in codes) outputText += `${char}: ${codes[char]}\n`;
-    
-    let compressedSize = text.split('').reduce((sum, char) => sum + codes[char].length, 0);
-    let originalSize = text.length * 8;
-    outputText += `\nOriginal: ${originalSize} bits\nCompressed: ${compressedSize} bits\n`;
-    outputText += `Efficiency: ${((originalSize - compressedSize)/originalSize * 100).toFixed(2)}%`;
-    
-    document.getElementById("output").innerText = outputText;
+    oscillator.start();
+    oscillator.stop(context.currentTime + 0.2);
 }
 
+// UPDATE YOUR COMPRESSION FUNCTION
+function compressText() {
+    playClickSound(); // Play sound when clicked
+    
+    // ... your existing logic ...
+
+    setTimeout(() => {
+        playProcessSound(); // Play sound when results appear
+    }, 300);
+}

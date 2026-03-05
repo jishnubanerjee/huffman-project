@@ -22,3 +22,4 @@ function compressText() {
     outputElement.innerText = mockBinary;
     efficiencyElement.innerText = "45.5%"; // Mock value to check UI
 }
+
